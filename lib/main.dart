@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vki_hesaplama/card_widget.dart';
 import 'package:vki_hesaplama/sabitler.dart';
+import 'package:vki_hesaplama/sonuc_sayfasi.dart';
 
 void main() {
   runApp(const MyApp());
@@ -36,6 +37,7 @@ class _MyHomePageState extends State<MyHomePage> {
   int height = 180;
   int weight = 60;
   int age = 35;
+  double vki = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -99,45 +101,47 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ),
           Expanded(
-            child: OrtakCard(
-              fonksiyon: () {},
-              cardColor: rkPasifCardBackColor,
-              cardChild: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "HEIGHT",
-                    style: tsActivCardColor,
-                  ),
-                  Row(
-                    textBaseline: TextBaseline.alphabetic,
-                    crossAxisAlignment: CrossAxisAlignment.baseline,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        height.toString(),
-                        style: tsHeightStyle,
-                      ),
-                      Text(
-                        "cm",
-                        style: tsCmStyle,
-                      ),
-                    ],
-                  ),
-                  SliderTheme(
-                    data: stSliderTheme,
-                    child: Slider(
-                      value: height.toDouble(),
-                      onChanged: (double newValue) {
-                        setState(() {
-                          height = newValue.round();
-                        });
-                      },
-                      min: 120,
-                      max: 220,
+            child: Container(
+              child: OrtakCard(
+                fonksiyon: () {},
+                cardColor: rkPasifCardBackColor,
+                cardChild: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "HEIGHT",
+                      style: tsActivCardColor,
                     ),
-                  )
-                ],
+                    Row(
+                      textBaseline: TextBaseline.alphabetic,
+                      crossAxisAlignment: CrossAxisAlignment.baseline,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          height.toString(),
+                          style: tsHeightStyle,
+                        ),
+                        Text(
+                          "cm",
+                          style: tsCmStyle,
+                        ),
+                      ],
+                    ),
+                    SliderTheme(
+                      data: stSliderTheme,
+                      child: Slider(
+                        value: height.toDouble(),
+                        onChanged: (double newValue) {
+                          setState(() {
+                            height = newValue.round();
+                          });
+                        },
+                        min: 120,
+                        max: 220,
+                      ),
+                    )
+                  ],
+                ),
               ),
             ),
           ),
@@ -253,7 +257,31 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
             ],
-          ))
+          )),
+          Row(
+            children: [
+              Expanded(
+                child: ElevatedButton(
+                  onPressed: () {
+                    vki = weight / ((height / 100) * (height / 100));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => SonucSayfasi(
+                                  height: height,
+                                  weight: weight,
+                                  vki: vki,
+                                )));
+                  },
+                  child: Text(
+                    "HESAPLA",
+                    style: TextStyle(fontSize: 40, color: Colors.white),
+                  ),
+                  style: ElevatedButton.styleFrom(primary: Colors.redAccent),
+                ),
+              ),
+            ],
+          )
         ],
       ),
     );
